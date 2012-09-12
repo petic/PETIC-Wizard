@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+<!-- http://uaihebert.com/?p=751 -->
+
+<f:metadata>
+	<f:viewParam name="processo"
+		value="#{visualizacaoDeProcessoBean.idDoProcesso}" />
+	<f:event listener="#{visualizacaoDeProcessoBean.carregarProcesso()}"
+		type="preRenderView" />
+</f:metadata>
+
+<ui:composition template="/WEB-INF/_template.xhtml">
+	<ui:define name="titulo">
+		<h:outputText
+			value=" - Catálogo de Processos da PETIC - Consulta de Processo" />
+	</ui:define>
+	<ui:define name="conteudo">
+		<h2>
+			<h:outputText
+				value="Catálogo de Processos da PETIC - Consulta de Processo" />
+		</h2>
+		<h:form prependId="false"
+			rendered="#{not empty visualizacaoDeProcessoBean.processo}">
+			<h:panelGrid columns="2">
+
+				<h:outputLabel value="Identificação:" for="identificacao" />
+				<h:outputText id="identificacao"
+					value="#{visualizacaoDeProcessoBean.processo.id}" />
+
+				<h:outputLabel value="Área/Sub-área:" for="area_subarea" />
+				<h:outputText id="area_subarea"
+					value="#{visualizacaoDeProcessoBean.processo.subarea.area} / #{visualizacaoDeProcessoBean.processo.subarea}" />
+
+				<h:outputLabel value="Processo:" for="nome" />
+				<h:outputText id="nome"
+					value="#{visualizacaoDeProcessoBean.processo.nome}" />
+
+				<h:outputLabel value="Descrição:" for="descricao" />
+				<h:outputText id="descricao"
+					value="#{visualizacaoDeProcessoBean.processo.descricao}" />
+
+			</h:panelGrid>
+
+			<br />
+			<rich:toolbar height="26" itemSeparator="grid">
+
+				<rich:toolbarGroup>
+					<h:commandLink class="toolbar" id="inicio"
+						action="#{navegacaoBean.irParaPaginaInicial()}" title="Início">
+						<h:outputText value="Início" />
+					</h:commandLink>
+
+					<h:commandLink class="toolbar" id="voltar"
+						action="#{navegacaoBean.abrirCatalogoDeProcessosGenericos()}"
+						title="Voltar">
+						<h:outputText value="Voltar" />
+					</h:commandLink>
+				</rich:toolbarGroup>
+			</rich:toolbar>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

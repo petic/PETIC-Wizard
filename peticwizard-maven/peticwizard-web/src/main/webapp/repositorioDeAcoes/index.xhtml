@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+<ui:composition template="/WEB-INF/_template.xhtml">
+	<ui:define name="titulo"> - Repositório de Ações da PETIC</ui:define>
+	<ui:define name="conteudo">
+		<h2>Repositório de Ações da PETIC</h2>
+		<h:form prependId="false">
+			<rich:extendedDataTable style="height:300px;"
+				selection="#{repositorioDeAcoesBean.selecao}"
+				value="#{repositorioDeAcoesBean.listaDeAcoes}" var="acaoGenerica"
+				selectionMode="single">
+				<a4j:ajax execute="@form" event="selectionchange"
+					listener="#{repositorioDeAcoesBean.atualizarAcaoSelecionada}"
+					render="@form" />
+				<f:facet name="header">
+					<h:outputText value="Repositório de Ações da PETIC" />
+				</f:facet>
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText value="Processo" />
+					</f:facet>
+					<h:outputText value="#{acaoGenerica.processoGenerico.id}" />
+				</rich:column>
+
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText value="ID da Ação" />
+					</f:facet>
+					<h:outputText value="#{acaoGenerica.id}" />
+				</rich:column>
+
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText value="Nome da Ação" />
+					</f:facet>
+					<h:outputText value="#{acaoGenerica.nome}" />
+				</rich:column>
+
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText value="Descrição" />
+					</f:facet>
+					<h:outputText value="#{acaoGenerica.descricao}" />
+				</rich:column>
+
+			</rich:extendedDataTable>
+
+			<br />
+			<rich:toolbar height="26" itemSeparator="grid">
+
+				<rich:toolbarGroup>
+					<h:commandLink class="toolbar" id="inicio"
+						action="#{navegacaoBean.irParaPaginaInicial()}" title="Início">
+						<h:outputText value="Início" />
+					</h:commandLink>
+
+					<h:commandLink class="toolbar" id="voltar"
+						action="#{navegacaoBean.irParaPaginaInicial()}" title="Voltar">
+						<h:outputText value="Voltar" />
+					</h:commandLink>
+				</rich:toolbarGroup>
+
+				<rich:toolbarGroup>
+					<h:link class="toolbar" id="adicionar" outcome="cadastro.xhtml"
+						title="Adicionar">
+						<h:outputText value="Adicionar" />
+					</h:link>
+
+					<h:link class="toolbar" id="ver_detalhes" outcome="acao.xhtml"
+						rendered="#{not empty repositorioDeAcoesBean.acaoSelecionada}"
+						title="Ver Detalhes">
+						<f:param name="acao"
+							value="#{repositorioDeAcoesBean.acaoSelecionada.id}" />
+						<h:outputText value="Ver Detalhes" />
+					</h:link>
+
+					<h:link class="toolbar" id="alterar" outcome="cadastro.xhtml"
+						rendered="#{not empty repositorioDeAcoesBean.acaoSelecionada}"
+						title="Remover">
+						<f:param name="acao"
+							value="#{repositorioDeAcoesBean.acaoSelecionada.id}" />
+						<h:outputText value="Alterar" />
+					</h:link>
+
+					<h:link class="toolbar" id="remover" outcome="remocao.xhtml"
+						rendered="#{not empty repositorioDeAcoesBean.acaoSelecionada}"
+						title="Remover">
+						<f:param name="acao"
+							value="#{repositorioDeAcoesBean.acaoSelecionada.id}" />
+						<h:outputText value="Remover" />
+					</h:link>
+
+				</rich:toolbarGroup>
+			</rich:toolbar>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

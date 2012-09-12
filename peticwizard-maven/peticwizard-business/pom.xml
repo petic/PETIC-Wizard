@@ -1,0 +1,42 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  
+	<parent>
+        <groupId>br.ufs.dcomp.gpes</groupId>
+        <artifactId>peticwizard</artifactId>
+        <version>0.1-dev</version>
+    </parent>
+	
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>peticwizard-business</artifactId>
+	<packaging>jar</packaging>
+	<name>PETIC Wizard Business</name>
+	<url>http://petic.sf.net</url>
+	
+	<dependencies>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>${hibernate-version}</version>
+			<scope>provided</scope>
+		</dependency>     
+		<dependency>
+			<groupId>org.glassfish</groupId>
+			<artifactId>javax.ejb</artifactId>
+			<version>${javax-ejb-version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>br.ufs.dcomp.gpes</groupId>
+			<artifactId>peticwizard-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql-connector-version}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>	
+
+</project>

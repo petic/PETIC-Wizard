@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+<!-- http://uaihebert.com/?p=751 -->
+
+<f:metadata>
+	<f:viewParam name="acao" value="#{visualizacaoDeAcaoBean.idDaAcao}" />
+	<f:event listener="#{visualizacaoDeAcaoBean.carregarAcao()}"
+		type="preRenderView" />
+</f:metadata>
+
+<ui:composition template="/WEB-INF/_template.xhtml">
+	<ui:define name="titulo">
+		<h:outputText
+			value=" - Repositório de Ações da PETIC - Consulta de Ação" />
+	</ui:define>
+	<ui:define name="conteudo">
+		<h2>
+			<h:outputText
+				value="Repositório de Ações da PETIC - Consulta de Ação" />
+		</h2>
+		<h:form prependId="false"
+			rendered="#{not empty visualizacaoDeAcaoBean.acaoGenerica}">
+			<rich:collapsiblePanel header="Dados do Processo" expanded="false"
+				switchType="client" leftCollapsedIcon="none"
+				rightCollapsedIcon="triangleDown" leftExpandedIcon="none"
+				rightExpandedIcon="triangleUp">
+				<h:panelGrid columns="2">
+
+					<h:outputLabel value="Identificação:" for="processo_id_1" />
+					<h:outputText id="processo_id_1"
+						value="#{visualizacaoDeAcaoBean.acaoGenerica.processoGenerico.id}" />
+
+					<h:outputLabel value="Processo:" for="processo_nome" />
+					<h:outputText id="processo_nome"
+						value="#{visualizacaoDeAcaoBean.acaoGenerica.processoGenerico.nome}" />
+
+					<h:outputLabel value="Área/Sub-área:" for="processo_area_subarea" />
+					<h:outputText id="processo_area_subarea"
+						value="#{visualizacaoDeAcaoBean.acaoGenerica.processoGenerico.subarea.area} / #{visualizacaoDeAcaoBean.acaoGenerica.processoGenerico.subarea}" />
+
+					<h:outputLabel value="Descrição:" for="processo_descricao" />
+					<h:outputText id="processo_descricao"
+						value="#{visualizacaoDeAcaoBean.acaoGenerica.processoGenerico.descricao}" />
+
+				</h:panelGrid>
+			</rich:collapsiblePanel>
+
+			<rich:panel header="Dados da Ação">
+				<h:panelGrid columns="2">
+
+					<h:outputLabel value="ID do Processo:" for="processo_id_2" />
+					<h:outputText id="processo_id_2"
+						value="#{visualizacaoDeAcaoBean.acaoGenerica.processoGenerico.id}" />
+
+					<h:outputLabel value="Identificação:" for="identificacao" />
+					<h:outputText id="identificacao"
+						value="#{visualizacaoDeAcaoBean.acaoGenerica.id}" />
+
+					<h:outputLabel value="Nome da Ação:" for="nome" />
+					<h:outputText id="nome"
+						value="#{visualizacaoDeAcaoBean.acaoGenerica.nome}" />
+
+					<h:outputLabel value="Descrição:" for="descricao" />
+					<h:outputText id="descricao"
+						value="#{visualizacaoDeAcaoBean.acaoGenerica.descricao}" />
+
+					<h:outputLabel value="Boas práticas relacionadas:"
+						for="boas_praticas" />
+					<h:outputText id="boas_praticas"
+						value="#{visualizacaoDeAcaoBean.acaoGenerica.boasPraticas}" />
+
+				</h:panelGrid>
+			</rich:panel>
+
+			<br />
+			<rich:toolbar height="26" itemSeparator="grid">
+
+				<rich:toolbarGroup>
+					<h:commandLink class="toolbar" id="inicio"
+						action="#{navegacaoBean.irParaPaginaInicial()}" title="Início">
+						<h:outputText value="Início" />
+					</h:commandLink>
+
+					<h:commandLink class="toolbar" id="voltar"
+						action="#{navegacaoBean.abrirRepositorioDeAcoes()}" title="Voltar">
+						<h:outputText value="Voltar" />
+					</h:commandLink>
+				</rich:toolbarGroup>
+			</rich:toolbar>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>
