@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+<!-- http://uaihebert.com/?p=751 -->
+<f:metadata>
+	<f:viewParam name="acao" value="#{cadastroDeAcaoBean.idDaAcao}" />
+	<f:event listener="#{cadastroDeAcaoBean.preRenderView()}"
+		type="preRenderView" />
+</f:metadata>
+<ui:composition template="/WEB-INF/_template.xhtml">
+	<ui:define name="titulo">
+		<h:outputText
+			value=" - Repositório de Ações da PETIC - Adição de Ação"
+			rendered="#{cadastroDeAcaoBean.cadastro}" />
+		<h:outputText
+			value=" - Repositório de Ações da PETIC - Alteração de Ação"
+			rendered="#{not cadastroDeAcaoBean.cadastro}" />
+	</ui:define>
+	<ui:define name="conteudo">
+		<h2>
+			<h:outputText value="Repositório de Ações da PETIC - Adição de Ação"
+				rendered="#{cadastroDeAcaoBean.cadastro}" />
+			<h:outputText
+				value="Repositório de Ações da PETIC - Alteração de Ação"
+				rendered="#{not cadastroDeAcaoBean.cadastro}" />
+		</h2>
+		<h:form prependId="false">
+			<rich:collapsiblePanel id="processo_dados" header="Dados do Processo"
+				expanded="false" switchType="client" leftCollapsedIcon="none"
+				rightCollapsedIcon="triangleDown" leftExpandedIcon="none"
+				rightExpandedIcon="triangleUp">
+
+				<h:outputText value="Não há processo selecionado."
+					rendered="#{empty cadastroDeAcaoBean.processoSelecionado}" />
+
+				<h:panelGrid columns="2"
+					rendered="#{not empty cadastroDeAcaoBean.processoSelecionado}">
+
+					<h:outputLabel value="Identificação:" for="processo_id_1" />
+					<h:outputText id="processo_id_1"
+						value="#{cadastroDeAcaoBean.processoSelecionado.id}" />
+
+					<h:outputLabel value="Processo:" for="processo_nome" />
+					<h:outputText id="processo_nome"
+						value="#{cadastroDeAcaoBean.processoSelecionado.nome}" />
+
+					<h:outputLabel value="Área/Sub-área:" for="processo_area_subarea" />
+					<h:outputText id="processo_area_subarea"
+						value="#{cadastroDeAcaoBean.processoSelecionado.subarea.area} / #{cadastroDeAcaoBean.processoSelecionado.subarea}" />
+
+					<h:outputLabel value="Descrição:" for="processo_descricao" />
+					<h:outputText id="processo_descricao"
+						value="#{cadastroDeAcaoBean.processoSelecionado.descricao}" />
+
+				</h:panelGrid>
+			</rich:collapsiblePanel>
+
+			<rich:panel header="Dados da Ação">
+				<h:panelGrid columns="2">
+					<h:outputLabel value="Processo:" for="processo_panel" />
+					<h:panelGroup id="processo_panel">
+						<rich:select converter="#{processoGenericoConverter}"
+							defaultLabel="Selecione o processo" id="processo" width="400"
+							value="#{cadastroDeAcaoBean.processoSelecionado}">
+							<f:selectItems value="#{cadastroDeAcaoBean.listaDeProcessos}" />
+							<a4j:ajax event="change"
+								render="processo_dados processo_id_1 processo_nome processo_area_subarea processo_descricao"
+								execute="@this" />
+						</rich:select>&nbsp;
+						<a4j:status>
+							<f:facet name="start">
+								<h:graphicImage value="/resources/imagens/loading.gif"
+									height="16" width="16" />&nbsp;
+							</f:facet>
+						</a4j:status>
+					</h:panelGroup>
+
+					<h:outputLabel value="Nome da Ação:" for="nome" />
+					<h:inputText id="nome"
+						value="#{cadastroDeAcaoBean.acaoGenerica.nome}" style="width: 400px" />
+
+					<h:outputLabel value="Descrição:" for="descricao" />
+					<h:inputText id="descricao"
+						value="#{cadastroDeAcaoBean.acaoGenerica.descricao}" style="width: 400px" />
+
+					<h:outputLabel value="Boas práticas relacionadas:"
+						for="boas_praticas" />
+					<h:inputText id="boas_praticas"
+						value="#{cadastroDeAcaoBean.acaoGenerica.boasPraticas}" style="width: 400px" />
+
+				</h:panelGrid>
+			</rich:panel>
+
+			<p>
+				<rich:toolbar height="26" itemSeparator="grid">
+
+					<rich:toolbarGroup>
+						<h:commandLink class="toolbar" id="inicio"
+							action="#{navegacaoBean.irParaPaginaInicial()}" title="Início">
+							<h:outputText value="Início" />
+						</h:commandLink>
+
+						<h:commandLink class="toolbar" id="voltar"
+							action="#{navegacaoBean.abrirRepositorioDeAcoes()}"
+							title="Voltar">
+							<h:outputText value="Voltar" />
+						</h:commandLink>
+					</rich:toolbarGroup>
+
+					<rich:toolbarGroup>
+						<h:commandLink class="toolbar" id="confirmar"
+							action="#{cadastroDeAcaoBean.salvar()}">
+							<h:outputText value="Confirmar" />
+						</h:commandLink>
+
+						<h:commandLink class="toolbar" id="cancelar"
+							action="#{navegacaoBean.abrirRepositorioDeAcoes()}">
+							<h:outputText value="Cancelar" />
+						</h:commandLink>
+					</rich:toolbarGroup>
+				</rich:toolbar>
+			</p>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

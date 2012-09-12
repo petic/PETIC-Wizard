@@ -1,0 +1,102 @@
+@CHARSET "ISO-8859-1";
+
+body {
+	font-family: sans-serif;
+	text-align: center;
+}
+
+div#pagina {
+	margin: auto;
+	min-height: 620px;
+	text-align: left;
+	width: 900px;
+}
+
+div#conteudo {
+	min-height: 570px;
+}
+
+div#topo {
+	border: 1px;
+	border-style: solid;
+	border-color: #BED6F8;
+	margin-bottom: 10px;
+	width: 900px;
+}
+
+div#topo h1 {
+	text-align: center;
+}
+
+div#topo p {
+	text-align: right;
+}
+
+div#menu {
+	float: left;
+	width: 220px;
+}
+
+div#principal {
+	float: right;
+	width: 670px;
+}
+
+div#rodape {
+	bottom: 0px;
+	margin-top: 10px;
+	width: 900px;
+	text-align: center;
+}
+
+div.clear {
+	clear: both;
+}
+
+a.toolbar {
+	background: left no-repeat;	
+	background-position: 4px;
+	color: black;
+	display: block;
+	padding: 4px;
+	padding-left: 24px;    
+	text-decoration: none;
+}
+a.toolbar#inicio {
+	background-image: url(#{resource['imagens:oxygen-icons/16x16/actions/go-home.png']});	
+}
+a.toolbar#voltar {
+	background-image: url(#{resource['imagens:oxygen-icons/16x16/actions/go-previous.png']});	
+}
+a.toolbar#adicionar {
+	background-image: url(#{resource['imagens:oxygen-icons/16x16/actions/list-add.png']});	
+}
+a.toolbar#ver_detalhes {
+	background-image: url(#{resource['imagens:oxygen-icons/16x16/actions/document-preview.png']});	
+}
+a.toolbar#alterar {
+	background-image: url(#{resource['imagens:oxygen-icons/16x16/actions/document-edit.png']});	
+}
+a.toolbar#remover {
+	background-image: url(#{resource['imagens:oxygen-icons/16x16/actions/edit-delete.png']});	
+}
+a.toolbar#confirmar {
+	background-image: url(#{resource['imagens:oxygen-icons/16x16/actions/dialog-ok-apply.png']});	
+}
+a.toolbar#cancelar {
+	background-image: url(#{resource['imagens:oxygen-icons/16x16/actions/dialog-cancel.png']});	
+}
+a.toolbar:hover {
+	background: left no-repeat white;
+	background-position: 4px;
+	border: 1px solid black;
+	font-weight: bold;
+}
+
+h2 {
+	text-align: center;
+}
+
+label {
+	font-weight: bold;
+}

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>webPETIC Wizard<ui:insert name="titulo" /></title>
+	<link rel="shortcut icon" href="#{resource['imagens:favicon.ico']}" />
+	<link rel="icon" type="image/vnd.microsoft.icon"
+		href="#{resource['imagens:favicon.ico']}" />
+	<link rel="icon" type="image/png"
+		href="#{resource['imagens:favicon.png']}" />
+	<link rel="apple-touch-icon" href="#{resource['imagens:favicon.png']}" />
+	<h:outputScript name="jsf.js" library="javax.faces" target="head" />
+	<h:outputStylesheet library="css" name="style.css" />
+</h:head>
+<h:body>
+	<div id="pagina">
+		<div id="conteudo">
+			<div id="topo">
+				<h1>webPETIC Wizard</h1>
+				<p>
+					v0.1<br />Jeirlan C Palmeira - Administrador/Consultor Estratégico
+				</p>
+			</div>
+			<div id="menu">
+				<h:form>
+					<rich:panelMenu expandSingle="false"
+						topGroupCollapsedRightIcon="triangleDown"
+						topGroupExpandedRightIcon="triangleUp" itemLeftIcon="disc">
+						<rich:panelMenuGroup expanded="true" label="Artefatos PETIC"
+							leftCollapsedIcon="/resources/imagens/oxygen-icons/22x22/mimetypes/text-plain.png"
+							leftExpandedIcon="/resources/imagens/oxygen-icons/22x22/mimetypes/text-plain.png">
+							<rich:panelMenuItem label="Novo" />
+							<rich:panelMenuItem label="Abrir" />
+							<rich:panelMenuItem label="Gerenciar" />
+						</rich:panelMenuGroup>
+						<rich:panelMenuGroup expanded="true"
+							label="Gerência de Catálogos da PETIC"
+							leftCollapsedIcon="/resources/imagens/oxygen-icons/22x22/apps/system-file-manager.png"
+							leftExpandedIcon="/resources/imagens/oxygen-icons/22x22/apps/system-file-manager.png">
+							<rich:panelMenuItem label="Catálogo de Processos"
+								action="#{navegacaoBean.abrirCatalogoDeProcessosGenericos}" />
+							<rich:panelMenuItem label="Repositório de Ações"
+								action="#{navegacaoBean.abrirRepositorioDeAcoes}" />
+							<rich:panelMenuItem label="Catálogo de Ferramentas e Técnicas" />
+						</rich:panelMenuGroup>
+						<rich:panelMenuGroup label="Usuários e Perfis"
+							leftCollapsedIcon="/resources/imagens/oxygen-icons/22x22/apps/system-users.png"
+							leftExpandedIcon="/resources/imagens/oxygen-icons/22x22/apps/system-users.png">
+						</rich:panelMenuGroup>
+						<rich:panelMenuGroup label="Opções de Configuração"
+							leftCollapsedIcon="/resources/imagens/oxygen-icons/22x22/categories/applications-system.png"
+							leftExpandedIcon="/resources/imagens/oxygen-icons/22x22/categories/applications-system.png">
+						</rich:panelMenuGroup>
+					</rich:panelMenu>
+				</h:form>
+			</div>
+			<div id="principal">
+				<rich:messages showDetail="false" errorStyle="color: red"
+					warnStyle="color: orange" infoStyle="color: blue" />
+				<ui:insert name="conteudo" />
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div id="rodape">
+			<rich:panel>Desenvolvido dentro do Grupo de Pesquisa em Engenharia de Software da Universidade Federal de Sergipe (UFS)</rich:panel>
+		</div>
+	</div>
+</h:body>
+</html>
