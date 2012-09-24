@@ -1,0 +1,13 @@
+package MobiPETIC;
+
+option java_package = "br.ufs.dcomp.gpes.peticwizard.presentation.MobiPETIC";
+option java_outer_classname = "AreasProtos";
+
+message Areas {
+	repeated Area area = 1;
+}
+
+message Area {
+	required string id = 1;
+	required string nome = 2;
+}

@@ -1,0 +1,14 @@
+package MobiPETIC;
+
+option java_package = "br.ufs.dcomp.gpes.peticwizard.presentation.MobiPETIC";
+option java_outer_classname = "SubareasProtos";
+
+message Subareas {
+	repeated Subarea subarea = 1;
+}
+
+message Subarea {
+	required string id = 1;
+	required string nome = 2;
+	optional int32 area_id = 3;
+}

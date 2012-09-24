@@ -4,7 +4,7 @@
 	<parent>
         <groupId>br.ufs.dcomp.gpes</groupId>
         <artifactId>peticwizard</artifactId>
-        <version>0.1-dev</version>
+        <version>0.2-dev</version>
     </parent>
 	
 	<modelVersion>4.0.0</modelVersion>
