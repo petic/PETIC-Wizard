@@ -1,0 +1,14 @@
+package MobiPETIC;
+
+option java_package = "br.ufs.dcomp.gpes.peticwizard.presentation.MobiPETIC";
+option java_outer_classname = "ProcessoQuestoesMaturidadeProtos";
+
+message ProcessoQuestoes {
+	repeated ProcessoQuestao processo_questao = 1;
+}
+
+message ProcessoQuestao {
+	required int32 id_questao = 1;
+	required string id_processo = 2;
+	required string marcado = 3;
+}

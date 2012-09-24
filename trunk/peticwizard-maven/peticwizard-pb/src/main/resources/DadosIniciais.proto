@@ -1,0 +1,10 @@
+package MobiPETIC;
+
+option java_package = "br.ufs.dcomp.gpes.peticwizard.presentation.MobiPETIC";
+option java_outer_classname = "DadosIniciais";
+
+message Usuario {
+	required int32 id = 1;
+	required int32 empresa_id = 2;
+	optional bytes empresa_logo = 3;
+}
