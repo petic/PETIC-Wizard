@@ -36,26 +36,26 @@
 				rightExpandedIcon="triangleUp">
 
 				<h:outputText value="Não há processo selecionado."
-					rendered="#{empty cadastroDeAcaoBean.processoSelecionado}" />
+					rendered="#{empty cadastroDeAcaoBean.acaoGenerica.processoGenerico}" />
 
 				<h:panelGrid columns="2"
-					rendered="#{not empty cadastroDeAcaoBean.processoSelecionado}">
+					rendered="#{not empty cadastroDeAcaoBean.acaoGenerica.processoGenerico}">
 
 					<h:outputLabel value="Identificação:" for="processo_id_1" />
 					<h:outputText id="processo_id_1"
-						value="#{cadastroDeAcaoBean.processoSelecionado.id}" />
+						value="#{cadastroDeAcaoBean.acaoGenerica.processoGenerico.id}" />
 
 					<h:outputLabel value="Processo:" for="processo_nome" />
 					<h:outputText id="processo_nome"
-						value="#{cadastroDeAcaoBean.processoSelecionado.nome}" />
+						value="#{cadastroDeAcaoBean.acaoGenerica.processoGenerico.nome}" />
 
 					<h:outputLabel value="Área/Sub-área:" for="processo_area_subarea" />
 					<h:outputText id="processo_area_subarea"
-						value="#{cadastroDeAcaoBean.processoSelecionado.subarea.area} / #{cadastroDeAcaoBean.processoSelecionado.subarea}" />
+						value="#{cadastroDeAcaoBean.acaoGenerica.processoGenerico.subarea.area.descricao} / #{cadastroDeAcaoBean.acaoGenerica.processoGenerico.subarea.descricao}" />
 
 					<h:outputLabel value="Descrição:" for="processo_descricao" />
 					<h:outputText id="processo_descricao"
-						value="#{cadastroDeAcaoBean.processoSelecionado.descricao}" />
+						value="#{cadastroDeAcaoBean.acaoGenerica.processoGenerico.descricao}" />
 
 				</h:panelGrid>
 			</rich:collapsiblePanel>
@@ -66,7 +66,7 @@
 					<h:panelGroup id="processo_panel">
 						<rich:select converter="#{processoGenericoConverter}"
 							defaultLabel="Selecione o processo" id="processo" width="400"
-							value="#{cadastroDeAcaoBean.processoSelecionado}">
+							value="#{cadastroDeAcaoBean.acaoGenerica.processoGenerico}">
 							<f:selectItems value="#{cadastroDeAcaoBean.listaDeProcessos}" />
 							<a4j:ajax event="change"
 								render="processo_dados processo_id_1 processo_nome processo_area_subarea processo_descricao"

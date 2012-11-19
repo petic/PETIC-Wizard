@@ -6,9 +6,13 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import br.ufs.dcomp.gpes.peticwizard.persistence.modelo.AcaoGenerica;
+import br.ufs.dcomp.gpes.peticwizard.persistence.modelo.ProcessoGenerico;
+import br.ufs.dcomp.gpes.peticwizard.persistence.modelo.Subarea;
 
 /**
  * DAO (sigla de Data Access Object) é um padrão de projeto (<i>design
@@ -62,6 +66,7 @@ public class AcaoGenericaDAO implements Serializable {
 	 */
 
 	public AcaoGenerica inserir(AcaoGenerica acaoGenerica) {
+		definirIdFormatado(acaoGenerica);
 		entityManager.persist(acaoGenerica);
 		return acaoGenerica;
 	}
@@ -73,8 +78,7 @@ public class AcaoGenericaDAO implements Serializable {
 	 * uma ação genérica com o <code>id</code> fornecido.
 	 * 
 	 * @param id
-	 *            um objeto da classe {@link Integer} (ou um valor do tipo
-	 *            <code>int</code>) representando o <code>id</code> da ação
+	 *            uma {@link String} representando o <code>id</code> da ação
 	 *            genérica que deve ser buscada no banco de dados.
 	 * 
 	 * @return um objeto da classe <code>AcaoGenerica</code> representando a
@@ -82,8 +86,11 @@ public class AcaoGenericaDAO implements Serializable {
 	 *         caso não.
 	 */
 
-	public AcaoGenerica buscar(Integer id) {
-		return entityManager.find(AcaoGenerica.class, id);
+	public AcaoGenerica buscar(String id) {
+		TypedQuery<AcaoGenerica> query = entityManager.createNamedQuery(
+				AcaoGenerica.BUSCAR, AcaoGenerica.class);
+		query.setParameter("idFormatado", id);
+		return query.getSingleResult();
 	}
 
 	/**
@@ -96,6 +103,13 @@ public class AcaoGenericaDAO implements Serializable {
 	 */
 
 	public void atualizar(AcaoGenerica acaoGenerica) {
+		AcaoGenerica acaoAntiga = buscar(acaoGenerica.getId());
+		if ((acaoAntiga != null)
+				&& (!acaoGenerica.getProcessoGenerico().equals(
+						acaoAntiga.getProcessoGenerico()))) {
+			atualizarAcoesSeguintesAposRemocao(acaoAntiga);
+			definirIdFormatado(acaoGenerica);
+		}
 		entityManager.merge(acaoGenerica);
 	}
 
@@ -129,8 +143,113 @@ public class AcaoGenericaDAO implements Serializable {
 	 */
 
 	public void remover(AcaoGenerica acaoGenerica) {
-		entityManager.remove(entityManager.find(AcaoGenerica.class,
-				acaoGenerica.getId()));
+		entityManager.remove(buscar(acaoGenerica.getId()));
+		atualizarAcoesSeguintesAposRemocao(acaoGenerica);
+	}
+
+	/**
+	 * Busca no banco de dados a ação genérica com o maior <code>id</code>
+	 * associado ao <code>processo genérico</code> fornecido como argumento e
+	 * retorna um objeto da classe {@link AcaoGenerica} que representa essa
+	 * ação. Pode retornar <code>null</code>, caso não exista uma ação genérica
+	 * cadastrada para o processo genérico fornecido.
+	 * 
+	 * @param subarea
+	 *            um objeto da classe {@link Subarea} representando a subárea
+	 *            cujo processo com maior <code>id</code> se deseja obter.
+	 * @return um objeto da classe <code>ProcessoGenerico</code> representando o
+	 *         processo genérico desejado, caso ele exista, ou <code>null</code>
+	 *         , não exista um processo genérico cadastrado para a subárea
+	 *         fornecida.
+	 */
+
+	private AcaoGenerica acaoDeMaiorId(ProcessoGenerico processoGenerico) {
+		TypedQuery<AcaoGenerica> query = entityManager
+				.createQuery(
+						"SELECT a FROM AcaoGenerica a WHERE a.processoGenerico = :processoGenerico ORDER BY a.idFormatado DESC",
+						AcaoGenerica.class);
+		try {
+			return query.setParameter("processoGenerico", processoGenerico)
+					.setMaxResults(1).getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+
+	/**
+	 * Define o <code>id</code> de uma <code>ação genérica</code> como sendo o
+	 * incremento do <code>id</code> da última ação cadastrada no mesmo processo
+	 * genérico. Esse método deve ser invocado sempre que uma nova ação genérica
+	 * for cadastrada em um processo genérico ou depois que o processo genérico
+	 * de uma ação for alterado.
+	 * 
+	 * @param acaoGenerica
+	 *            um objeto da classe {@link AcaoGenerica} representando a ação
+	 *            genérica cujo <code>id</code> se deseja definir. O
+	 *            <code>id</code> dessa ação será igual ao <code>id</code> da
+	 *            última ação associada ao mesmo processo genérico acrescido de
+	 *            1.
+	 * 
+	 * @see AcaoGenericaDAO#atualizarAcoesSeguintesAposRemocao(AcaoGenerica)
+	 */
+
+	private void definirIdFormatado(AcaoGenerica acaoGenerica) {
+		AcaoGenerica acaoDeMaiorId = acaoDeMaiorId(acaoGenerica
+				.getProcessoGenerico());
+		String id;
+		if (acaoDeMaiorId != null)
+			id = acaoGenerica.getProcessoGenerico().getId()
+					+ "."
+					+ (Integer.parseInt(acaoDeMaiorId.getId().split("\\.")[3]) + 1);
+		else
+			id = acaoGenerica.getProcessoGenerico().getId() + ".1";
+		acaoGenerica.setId(id);
+	}
+
+	/**
+	 * Decrementa o <code>id</code> de todas as ações genéricas associadas ao
+	 * mesmo processo genérico de uma <code>ação genérica</code> e que aparecem
+	 * após esta na ordem de inserção, depois que esta é removida de seu
+	 * processo genérico. Esse método deve ser invocado sempre que uma ação
+	 * genérica for removida ou antes que o processo genérico de uma ação seja
+	 * alterado.
+	 * 
+	 * @param acaoRemovida
+	 *            um objeto da classe {@link AcaoGenerica} representando a ação
+	 *            genérica removida de um processo genérico, a partir da qual,
+	 *            respeitando a ordem de inserção, os <code>id</code>s de todas
+	 *            as ações genéricas associados ao mesmo processo genérico devem
+	 *            ser decrementados.
+	 * 
+	 * @see AcaoGenericaDAO#definirIdFormatado(AcaoGenerica)
+	 */
+
+	private void atualizarAcoesSeguintesAposRemocao(AcaoGenerica acaoRemovida) {
+		AcaoGenerica acaoDeMaiorId = acaoDeMaiorId(acaoRemovida
+				.getProcessoGenerico());
+		if (acaoDeMaiorId != null) {
+			String primeiroIndice = acaoRemovida.getProcessoGenerico().getId()
+					+ "."
+					+ (Integer.parseInt(acaoRemovida.getId().split("\\.")[3]) + 1);
+			String ultimoIndice = acaoDeMaiorId.getId();
+			TypedQuery<AcaoGenerica> query = entityManager.createQuery(
+					"SELECT a FROM AcaoGenerica a "
+							+ "WHERE a.processoGenerico = :processoGenerico "
+							+ "AND a.idFormatado >= :primeiroIndice "
+							+ "AND a.idFormatado <= :ultimoIndice "
+							+ "ORDER BY a.idFormatado", AcaoGenerica.class);
+			query.setParameter("processoGenerico",
+					acaoRemovida.getProcessoGenerico());
+			query.setParameter("primeiroIndice", primeiroIndice);
+			query.setParameter("ultimoIndice", ultimoIndice);
+			List<AcaoGenerica> acoesParaAtualizar = query.getResultList();
+			for (AcaoGenerica acao : acoesParaAtualizar) {
+				String id = acao.getProcessoGenerico().getId() + "."
+						+ (Integer.parseInt(acao.getId().split("\\.")[3]) - 1);
+				acao.setId(id);
+				atualizar(acao);
+			}
+		}
 	}
 
 }

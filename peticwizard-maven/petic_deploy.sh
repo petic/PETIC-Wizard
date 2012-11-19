@@ -10,3 +10,9 @@ echo "**************************************************************************
 cd peticwizard-web
 mvn jboss-as:deploy
 cd ..
+echo "*******************************************************************************"
+echo "Implantacao e execucao do projeto peticwizard-services"
+echo "*******************************************************************************"
+cd peticwizard-services
+mvn jboss-as:deploy
+cd ..

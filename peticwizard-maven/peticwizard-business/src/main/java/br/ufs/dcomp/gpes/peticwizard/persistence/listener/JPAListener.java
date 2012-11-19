@@ -9,20 +9,26 @@ import javax.persistence.*;
  * uma das fases do ciclo de vida da entidade associada, informando o nome da
  * classe da entidade e a fase do ciclo de vida no momento do processamento.
  * 
- * <p>Para que uma entidade JPA seja monitorada por esse listener, ela deve ser
- * anotada com {@link EntityListeners}, como em:</p>
+ * <p>
+ * Para que uma entidade JPA seja monitorada por esse listener, ela deve ser
+ * anotada com {@link EntityListeners}, como em:
+ * </p>
  * <code>@EntityListeners(JPAListener.class)<br/>
  * public class Area {</code></p>
  * 
- * <p>Também é possível definir esse listener como um listener padrão, usado para
+ * <p>
+ * Também é possível definir esse listener como um listener padrão, usado para
  * monitorar o ciclo de vida de todas as entidades da aplicação. Nesse caso,
- * deve-se recorrer à configuração da unidade de persistência via arquivos XML.</p>
+ * deve-se recorrer à configuração da unidade de persistência via arquivos XML.
+ * </p>
  * 
  * @see Entity
  * @see EntityListeners
  */
 
 public class JPAListener {
+
+	// TODO Classe utilizada apenas para depuração. Remover da versão final.
 
 	private void imprimirFase(Object object, String fase) {
 		System.out.println("Entidade " + object.getClass().getSimpleName()

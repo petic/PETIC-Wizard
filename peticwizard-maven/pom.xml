@@ -14,6 +14,7 @@
         <module>peticwizard-business</module>
         <module>peticwizard-web</module>
         <module>peticwizard-pb</module>
+		<module>peticwizard-services</module>
     </modules>
 	
 	<repositories>

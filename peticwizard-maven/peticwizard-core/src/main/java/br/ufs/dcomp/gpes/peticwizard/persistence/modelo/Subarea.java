@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Index;
+
 /**
  * Representa a entidade Subárea definida no modelo de domínio da aplicação.
  * Configura uma entidade JPA (uma classe anotada com {@link Entity}) mapeada
@@ -23,15 +25,19 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "petic_subarea")
-// @NamedQuery(name = Subarea.LISTAR_TODAS, query = "SELECT s FROM Subarea s")
-public class Subarea implements Serializable {
+@NamedQuery(name = Subarea.BUSCAR, query = "SELECT s FROM Subarea s WHERE s.idFormatado = :idFormatado")
+public class Subarea implements Serializable, Comparable<Subarea> {
 
 	private static final long serialVersionUID = 1L;
-	// public static final String LISTAR_TODAS = "Subarea.listarTodas";
+	public static final String BUSCAR = "Subarea.buscar";
 
 	@Id
 	@GeneratedValue
 	private Integer id;
+
+	@Index(name = "idFormatadoIndex")
+	@NotNull
+	private String idFormatado;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@NotNull
@@ -43,8 +49,8 @@ public class Subarea implements Serializable {
 	@OneToMany(/* fetch = FetchType.LAZY, */mappedBy = "subarea", cascade = { CascadeType.REMOVE })
 	private List<ProcessoGenerico> processosGenericos = new ArrayList<ProcessoGenerico>();
 
-	public Integer getId() {
-		return id;
+	public String getId() {
+		return idFormatado;
 	}
 
 	public Area getArea() {
@@ -59,8 +65,8 @@ public class Subarea implements Serializable {
 		return processosGenericos;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setId(String id) {
+		this.idFormatado = id;
 	}
 
 	public void setArea(Area area) {
@@ -72,15 +78,15 @@ public class Subarea implements Serializable {
 	}
 
 	@Override
-	public String toString() {
-		return descricao;
+	public int compareTo(Subarea outraSubarea) {
+		return this.idFormatado.compareTo(outraSubarea.idFormatado);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 		Subarea outraSubarea = (Subarea) obj;
 		if (outraSubarea != null) {
-			return (outraSubarea.getId() == this.id);
+			return (outraSubarea.id.equals(this.id));
 		} else {
 			return false;
 		}
@@ -89,6 +95,11 @@ public class Subarea implements Serializable {
 	@Override
 	public int hashCode() {
 		return id;
+	}
+
+	@Override
+	public String toString() {
+		return idFormatado + " - " + descricao;
 	}
 
 }

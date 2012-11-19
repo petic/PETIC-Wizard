@@ -6,6 +6,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import br.ufs.dcomp.gpes.peticwizard.persistence.modelo.Subarea;
 
@@ -51,60 +52,24 @@ public class SubareaDAO implements Serializable {
 	}
 
 	/**
-	 * Insere no banco de dados a <code>subárea</code> fornecida como argumento.
-	 * 
-	 * @param subarea
-	 *            um objeto da classe {@link Subarea} representando a subárea
-	 *            que deve ser inserida no banco de dados.
-	 */
-
-	public Subarea inserir(Subarea subarea) {
-		entityManager.persist(subarea);
-		return subarea;
-	}
-
-	/**
 	 * Busca no banco de dados uma subárea com o <code>id</code> fornecido como
 	 * argumento e retorna um objeto da classe {@link Subarea} que representa
 	 * essa subárea. Pode retornar <code>null</code>, caso não exista uma
 	 * subárea com o <code>id</code> fornecido.
 	 * 
 	 * @param id
-	 *            um objeto da classe {@link Integer} (ou um valor do tipo
-	 *            <code>int</code>) representando o <code>id</code> da subárea
+	 *            uma {@link String} representando o <code>id</code> da subárea
 	 *            que deve ser buscada no banco de dados.
 	 * 
 	 * @return um objeto da classe <code>Subarea</code> representando a subárea
 	 *         desejada, caso ela exista, ou <code>null</code>, caso não.
 	 */
 
-	public Subarea buscar(Integer id) {
-		return entityManager.find(Subarea.class, id);
-	}
-
-	/**
-	 * Atualiza no banco de dados a <code>subárea</code> fornecida como
-	 * argumento.
-	 * 
-	 * @param subarea
-	 *            um objeto da classe {@link Subarea} representando a subárea
-	 *            que deve ser atualizada no banco de dados.
-	 */
-
-	public void atualizar(Subarea subarea) {
-		entityManager.merge(subarea);
-	}
-
-	/**
-	 * Remove do banco de dados a <code>subárea</code> fornecida como argumento.
-	 * 
-	 * @param subarea
-	 *            um objeto da classe {@link Subarea} representando a subárea
-	 *            que deve ser removida do banco de dados.
-	 */
-
-	public void remover(Subarea subarea) {
-		entityManager.remove(entityManager.find(Subarea.class, subarea));
+	public Subarea buscar(String id) {
+		TypedQuery<Subarea> query = entityManager.createNamedQuery(
+				Subarea.BUSCAR, Subarea.class);
+		query.setParameter("idFormatado", id);
+		return query.getSingleResult();
 	}
 
 }
