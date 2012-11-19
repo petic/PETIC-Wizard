@@ -29,7 +29,7 @@ import br.ufs.dcomp.gpes.peticwizard.persistence.modelo.Area;
 
 @Stateless
 public class AreaDAO implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	@PersistenceContext
@@ -68,14 +68,11 @@ public class AreaDAO implements Serializable {
 	 *         desejada, caso ela exista, ou <code>null</code>, caso não.
 	 * 
 	 * @see Area
-	 * 
 	 */
 
 	public Area inserirOuObterArea(Integer id) {
 		Area area = entityManager.find(Area.class, id);
-		if (area != null) {
-			return area;
-		} else {
+		if ((area == null) && (id >= 1) && (id <= 5)) {
 			area = new Area();
 			area.setId(id);
 			switch (id) {
@@ -93,8 +90,7 @@ public class AreaDAO implements Serializable {
 				break;
 			case 5:
 				area.setDescricao("Pessoas");
-				break; // TODO O que fazer caso seja passado um id que não
-						// existe?
+				break;
 			}
 			entityManager.persist(area);
 		}

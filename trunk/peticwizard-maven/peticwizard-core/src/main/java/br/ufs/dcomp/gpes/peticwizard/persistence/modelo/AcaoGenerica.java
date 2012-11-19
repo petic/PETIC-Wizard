@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Index;
+
 /**
  * Representa a entidade Ação Genérica definida no modelo de domínio da
  * aplicação. Configura uma entidade JPA (uma classe anotada com {@link Entity})
@@ -21,15 +23,22 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "petic_acao_generica")
-@NamedQuery(name = AcaoGenerica.LISTAR_TODAS, query = "SELECT a FROM AcaoGenerica a")
-public class AcaoGenerica implements Serializable {
+@NamedQueries({
+		@NamedQuery(name = AcaoGenerica.LISTAR_TODAS, query = "SELECT a FROM AcaoGenerica a ORDER BY a.idFormatado"),
+		@NamedQuery(name = AcaoGenerica.BUSCAR, query = "SELECT a FROM AcaoGenerica a WHERE a.idFormatado = :idFormatado") })
+public class AcaoGenerica implements Serializable, Comparable<AcaoGenerica> {
 
 	private static final long serialVersionUID = 1L;
 	public static final String LISTAR_TODAS = "AcaoGenerica.listarTodas";
+	public static final String BUSCAR = "AcaoGenerica.buscar";
 
 	@Id
 	@GeneratedValue
 	private Integer id;
+
+	@Index(name = "idFormatadoIndex")
+	@NotNull
+	private String idFormatado;
 
 	private String nome;
 	private String descricao;
@@ -42,8 +51,8 @@ public class AcaoGenerica implements Serializable {
 	// TODO Campos: duração média, custo médio, esforço médio e
 	// soluções/recomendações
 
-	public Integer getId() {
-		return id;
+	public String getId() {
+		return idFormatado;
 	}
 
 	public String getNome() {
@@ -62,8 +71,8 @@ public class AcaoGenerica implements Serializable {
 		return processoGenerico;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setId(String id) {
+		this.idFormatado = id;
 	}
 
 	public void setNome(String nome) {
@@ -83,15 +92,15 @@ public class AcaoGenerica implements Serializable {
 	}
 
 	@Override
-	public String toString() {
-		return nome;
+	public int compareTo(AcaoGenerica outraAcao) {
+		return this.idFormatado.compareTo(outraAcao.idFormatado);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 		AcaoGenerica outraAcao = (AcaoGenerica) obj;
 		if (outraAcao != null) {
-			return (outraAcao.getId() == this.id);
+			return (outraAcao.id.equals(this.id));
 		} else {
 			return false;
 		}
@@ -99,7 +108,12 @@ public class AcaoGenerica implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return id;
+		return id.hashCode();
+	}
+
+	@Override
+	public String toString() {
+		return idFormatado + " - " + nome;
 	}
 
 }

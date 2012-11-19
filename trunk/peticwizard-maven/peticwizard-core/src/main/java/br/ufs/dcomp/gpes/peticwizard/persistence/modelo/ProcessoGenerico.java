@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Index;
+
 /**
  * Representa a entidade Processo Genérico definida no modelo de domínio da
  * aplicação. Configura uma entidade JPA (uma classe anotada com {@link Entity})
@@ -23,15 +25,23 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "petic_processo_generico")
-@NamedQuery(name = ProcessoGenerico.LISTAR_TODOS, query = "SELECT p FROM ProcessoGenerico p")
-public class ProcessoGenerico implements Serializable {
+@NamedQueries({
+		@NamedQuery(name = ProcessoGenerico.LISTAR_TODOS, query = "SELECT p FROM ProcessoGenerico p ORDER BY p.idFormatado"),
+		@NamedQuery(name = ProcessoGenerico.BUSCAR, query = "SELECT p FROM ProcessoGenerico p WHERE p.idFormatado = :idFormatado") })
+public class ProcessoGenerico implements Serializable,
+		Comparable<ProcessoGenerico> {
 
 	private static final long serialVersionUID = 1L;
 	public static final String LISTAR_TODOS = "ProcessoGenerico.listarTodos";
+	public static final String BUSCAR = "ProcessoGenerico.buscar";
 
 	@Id
 	@GeneratedValue
 	private Integer id;
+
+	@Index(name = "idFormatadoIndex")
+	@NotNull
+	private String idFormatado;
 
 	@NotNull
 	private String nome;
@@ -40,12 +50,14 @@ public class ProcessoGenerico implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@NotNull
 	private Subarea subarea;
-
+	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "processoGenerico", cascade = { CascadeType.REMOVE })
 	private List<AcaoGenerica> acoesGenericas = new ArrayList<AcaoGenerica>();
+	
+	// TODO Campos: entradas e saídas
 
-	public Integer getId() {
-		return id;
+	public String getId() {
+		return idFormatado;
 	}
 
 	public String getNome() {
@@ -64,8 +76,8 @@ public class ProcessoGenerico implements Serializable {
 		return acoesGenericas;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setId(String id) {
+		this.idFormatado = id;
 	}
 
 	public void setNome(String nome) {
@@ -85,15 +97,15 @@ public class ProcessoGenerico implements Serializable {
 	}
 
 	@Override
-	public String toString() {
-		return nome;
+	public int compareTo(ProcessoGenerico outroProcesso) {
+		return this.idFormatado.compareTo(outroProcesso.idFormatado);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 		ProcessoGenerico outroProcesso = (ProcessoGenerico) obj;
 		if (outroProcesso != null) {
-			return (outroProcesso.getId() == this.id);
+			return (outroProcesso.id.equals(this.id));
 		} else {
 			return false;
 		}
@@ -101,6 +113,11 @@ public class ProcessoGenerico implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return id;
+		return id.hashCode();
+	}
+
+	@Override
+	public String toString() {
+		return idFormatado + " - " + nome;
 	}
 }

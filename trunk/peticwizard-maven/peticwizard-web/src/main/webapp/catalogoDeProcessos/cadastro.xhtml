@@ -50,7 +50,7 @@
 					<a4j:outputPanel id="subarea_select" ajaxRendered="false">
 						<rich:select converter="#{subareaConverter}" defaultLabel="Selecione a sub-área" id="subarea"
 							disabled="#{empty cadastroDeProcessoBean.areaSelecionada}"
-							value="#{cadastroDeProcessoBean.subareaSelecionada}">
+							value="#{cadastroDeProcessoBean.processo.subarea}">
 							<f:selectItems value="#{cadastroDeProcessoBean.listaDeSubareas}" />
 						</rich:select>
 					</a4j:outputPanel>

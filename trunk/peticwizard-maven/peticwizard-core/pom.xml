@@ -15,11 +15,11 @@
 	
 	<dependencies>
 		<dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>javax.persistence</artifactId>
-            <version>${javax-persistence-version}</version>
-            <scope>provided</scope>
-        </dependency>      
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>${hibernate-version}</version>
+			<scope>provided</scope>
+		</dependency>    
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>

@@ -1,0 +1,76 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  
+	<parent>
+        <groupId>br.ufs.dcomp.gpes</groupId>
+        <artifactId>peticwizard</artifactId>
+        <version>0.2-dev</version>
+    </parent>
+	
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>peticwizard-services</artifactId>
+	<packaging>war</packaging>
+	<name>PETIC Wizard RESTful Services</name>
+	<url>http://petic.sf.net</url>
+    
+	<dependencies>
+		<dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>javax.persistence</artifactId>
+            <version>${javax-persistence-version}</version>
+            <scope>provided</scope>
+        </dependency>  
+		<dependency>
+			<groupId>org.glassfish</groupId>
+			<artifactId>javax.ejb</artifactId>
+			<version>${javax-ejb-version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>jsr311-api</artifactId>
+            <version>${jaxrs-version}</version>
+            <scope>provided</scope>
+        </dependency>
+		<dependency>
+			<groupId>javax.enterprise</groupId>
+			<artifactId>cdi-api</artifactId>
+			<version>${cdi-api-version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>br.ufs.dcomp.gpes</groupId>
+			<artifactId>peticwizard-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>br.ufs.dcomp.gpes</groupId>
+			<artifactId>peticwizard-business</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>br.ufs.dcomp.gpes</groupId>
+			<artifactId>peticwizard-pb</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>	
+	
+	<build>
+		<finalName>peticwizard-rest</finalName>
+		<plugins>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>${maven-war-plugin-version}</version>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			 </plugin>
+			<plugin>
+				<groupId>org.jboss.as.plugins</groupId>
+				<artifactId>jboss-as-maven-plugin</artifactId>
+				<version>${jboss-as-version}</version>
+			</plugin>
+		</plugins>
+	</build>
+	
+</project>

@@ -23,7 +23,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "petic_area")
 @NamedQuery(name = Area.LISTAR_TODAS, query = "SELECT a FROM Area a")
-public class Area implements Serializable {
+public class Area implements Serializable, Comparable<Area> {
 
 	private static final long serialVersionUID = 1L;
 	public static final String LISTAR_TODAS = "Area.listarTodas";
@@ -58,23 +58,28 @@ public class Area implements Serializable {
 	}
 
 	@Override
-	public String toString() {
-		return descricao;
+	public int compareTo(Area outraArea) {
+		return this.id.compareTo(outraArea.id);
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		Area outraArea = (Area) obj;
 		if (outraArea != null) {
-			return (outraArea.getId() == this.id);
+			return (outraArea.getId().equals(this.id));
 		} else {
 			return false;
 		}
 	}
-
+	
 	@Override
 	public int hashCode() {
 		return id;
+	}
+	
+	@Override
+	public String toString() {
+		return id + " - " + descricao;
 	}
 
 }

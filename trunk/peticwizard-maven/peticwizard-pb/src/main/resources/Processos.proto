@@ -29,6 +29,6 @@ message Processo {
 	optional string responsavel = 10;
 	optional string stakeholders = 11;
 	optional int64 modificacao = 12;
-	optional int32 subarea_id = 13;
+	optional string subarea_id = 13;
 	optional int64 modificacao_questionario = 14;
 }
