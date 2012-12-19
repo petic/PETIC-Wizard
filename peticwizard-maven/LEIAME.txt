@@ -1,0 +1,111 @@
+===============================================================================
+Código-fonte do webPETIC Wizard
+===============================================================================
+
+Esta pasta contém o código-fonte do webPETIC Wizard versão 0.2-dev. Este
+documento fornece informações relacionadas a esse código-fonte:
+
+1. Organização do código-fonte
+2. Requisitos para compilar o código-fonte
+3. Instruções para compilar o código-fonte
+4. Requisitos para executar a aplicação
+5. Instruções para implantar a aplicação no JBoss AS
+
+Você pode verificar se já existe uma versão mais recente desse código-fonte
+no site do PETIC Wizard:
+
+http://petic.sourceforge.net/
+
+-------------------------------------------------------------------------------
+1. Organização do código-fonte
+
+O código-fonte do webPETIC Wizard é constituído de um projeto do Maven dividido
+em 5 módulos:
+
+- peticwizard-core: implementa as entidades do modelo de domínio da aplicação,
+  que definem como os dados são armazenados na base de dados;
+- peticwizard-business: implementa a lógica de negócio da aplicação, incluindo
+  definições de objetos responsáveis por armazenar as entidades na base de
+  dados, seguindo o design pattern DAO;
+- peticwizard-web: implementa a interface web da aplicação;
+- peticwizard-pb: implementa a representação das entidades da aplicação no
+  formato Protocol Buffers e fornece suporte à utilização desse formato nas
+  aplicações cliente e servidor; e
+- peticwizard-services: implementa os webservices da aplicação, que permitem o
+  acesso do mobiPETIC e de aplicações de terceiros aos artefatos PETIC
+  construídos usando a interface web do webPETIC Wizard.
+
+Além do código-fonte em si, essa pasta contém 3 scripts que visam auxiliar as
+tarefas de compilação e execução da aplicação. Esses scripts podem ser
+executados em Windows e Linux (ao todo, portanto, são 6 scripts, já que cada
+um dos 3 possui uma versão em BAT e outra em shell script):
+
+- petic_compile: realiza a compilação do código-fonte;
+- petic_clean: realiza a limpeza do código-fonte, removendo quaisquer arquivos
+  gerados após a compilação; e
+- petic_deploy: implanta a aplicação, após compilada, no servidor de aplicação
+  JBoss AS.
+
+-------------------------------------------------------------------------------
+2. Requisitos para compilar o código-fonte
+
+Para compilar o código-fonte do webPETIC Wizard, é necessário que o computador
+que realizará a compilação apresente os seguintes softwares previamente
+instalados:
+
+- Java Development Kit (JDK) versão 6 ou superior; e
+- Apache Maven versão 3.0.4 ou superior.
+
+Caso você não possua algum desses softwares instalados no computador no qual
+deseja compilar o webPETIC Wizard, instruções de como obter e instalar o JDK
+podem ser obtidas no manual do webPETIC Wizard. Para instruções de como obter e
+instalar o Apache Maven, consulte a página:
+
+http://maven.apache.org/download.html
+
+-------------------------------------------------------------------------------
+3. Instruções para compilar o código-fonte
+
+Para compilar o código-fonte do webPETIC Wizard, é suficiente executar o script
+petic_compile.bat (no Windows) ou o script petic_compile.sh (no Linux).
+
+Como resultado da compilação, são gerados 2 arquivos .war, que podem ser
+implantados no servidor de aplicação:
+
+- peticwizard-web/target/peticwizard.war: corresponde ao webPETIC Wizard em si,
+  que pode ser acessado através de qualquer navegador; e
+- peticwizard-services/target/peticwizard-rest.war: corresponde aos webservices
+  do webPETIC Wizard, que permitem o acesso do mobiPETIC e de aplicações de
+  terceiros aos artefatos PETIC construídos no webPETIC Wizard.
+
+-------------------------------------------------------------------------------
+4. Requisitos para executar a aplicação
+
+Para que o webPETIC Wizard possa ser executado em um computador, este deve
+apresentar os seguintes softwares previamente instalados:
+
+- Java Development Kit (JDK) versão 6 ou superior;
+- Servidor de aplicação JBoss AS versão 7.0 ou superior;
+- Banco de dados MySQL versão 5.0 ou superior; e
+- Driver JDBC do MySQL (chamado pela comunidade de MySQL Connector/J) em versão
+  compatível com a do MySQL (de preferência a mais recente) implantado no
+  JBoss AS.
+
+Caso você não possua algum desses softwares instalados no computador no qual
+deseja executar o webPETIC Wizard, consulte o manual do webPETIC Wizard para
+saber como obtê-los e instalá-los.
+
+-------------------------------------------------------------------------------
+5. Instruções para implantar a aplicação no JBoss AS
+
+Para implantar o código-fonte do webPETIC Wizard, é necessário que a aplicação
+tenha sido previamente compilada. Atendido este requisito, é suficiente
+executar o script petic_deploy.bat (no Windows) ou o script petic_deploy.sh (no
+Linux). Esses scripts implantam o webPETIC Wizard e seus webservices no
+servidor de aplicação JBoss AS, que têm sua execução iniciada no momento da
+implantação.
+
+Caso você não consiga implantar a aplicação desta forma, ou caso deseje
+implantar apenas o webPETIC Wizard ou apenas seus webservices, consulte o
+manual do webPETIC Wizard para saber como implantar a aplicação no servidor
+manualmente.

@@ -1,18 +1,14 @@
 #!/bin/bash
-#Executar com o JBoss AS ja iniciado
-echo "*******************************************************************************"
-echo "Compilacao do projeto peticwizard"
-echo "*******************************************************************************"
-mvn clean package install
+#Executar depois de compilar a aplicacao, com o JBoss AS ja iniciado
 echo "*******************************************************************************"
 echo "Implantacao e execucao do projeto peticwizard-web"
-echo "*******************************************************************************"
+echo -e "*******************************************************************************\n"
 cd peticwizard-web
 mvn jboss-as:deploy
 cd ..
 echo "*******************************************************************************"
 echo "Implantacao e execucao do projeto peticwizard-services"
-echo "*******************************************************************************"
+echo -e "*******************************************************************************\n"
 cd peticwizard-services
 mvn jboss-as:deploy
 cd ..

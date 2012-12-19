@@ -1,5 +1,5 @@
 #!/bin/bash
 echo "*******************************************************************************"
-echo "Limpeza do projeto peticwizard"
+echo "Compilacao do projeto peticwizard"
 echo -e "*******************************************************************************\n"
-mvn clean
+mvn clean package install
